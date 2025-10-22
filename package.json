@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/AbhinitTripathi/ProjectManagementSystem/issues"
   },
-  "homepage": "https://github.com/AbhinitTripathi/ProjectManagementSystem#readme"
+  "homepage": "https://github.com/AbhinitTripathi/ProjectManagementSystem#readme",
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
 }

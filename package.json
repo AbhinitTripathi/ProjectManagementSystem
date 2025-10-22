@@ -1,0 +1,26 @@
+{
+  "name": "project-management-system",
+  "version": "1.0.0",
+  "description": "A project management system for beginners",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbhinitTripathi/ProjectManagementSystem.git"
+  },
+  "keywords": [
+    "backend",
+    "API",
+    "creation"
+  ],
+  "author": "Abhinit Tripathi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbhinitTripathi/ProjectManagementSystem/issues"
+  },
+  "homepage": "https://github.com/AbhinitTripathi/ProjectManagementSystem#readme"
+}

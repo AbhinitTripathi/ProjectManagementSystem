@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/AbhinitTripathi/ProjectManagementSystem#readme",
   "devDependencies": {
+    "nodemon": "^3.1.10",
     "prettier": "3.6.2"
   }
 }

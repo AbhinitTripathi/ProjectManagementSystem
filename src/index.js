@@ -1,9 +1,16 @@
-import dotenv from "dotenv"
-
+import dotenv from "dotenv";
+import express from "express";
 dotenv.config({
-    path: "./.env",
-})
+  path: "./.env",
+});
 
-const my_user_name = process.env.user_name;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-console.log(`Hello ${my_user_name}`);
+app.get("/", (req, res) => {
+  res.send(`Running On PORT: ${PORT}`);
+});
+
+app.listen(PORT, () => {
+  console.log(`Listening on http://localhost:${PORT}`);
+});

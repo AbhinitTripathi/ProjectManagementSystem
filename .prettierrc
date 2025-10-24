@@ -3,7 +3,7 @@
     "useTabs": false,
     "semi": true,
     "singleQuote": false,
-    "trailingComma": "add",
+    "trailingComma": "all",
     "bracketSpacing": true,
     "arrowParens": "always"
 }

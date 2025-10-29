@@ -10,12 +10,12 @@ app.use(express.static("public"));
 
 // CORS configurations
 app.use(
-    cors({
-        origin: process.env.CORS_ORIGIN?.split(",") || "https://localhost:5173",
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
+  cors({
+    origin: process.env.CORS_ORIGIN?.split(",") || "https://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
 );
 
 app.get("/", (req, res) => {
@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/instagram", (req, res) => {
-  res.send(`This is your instagram Home Page`)
+  res.send(`This is your instagram Home Page`);
 });
 
 export default app;

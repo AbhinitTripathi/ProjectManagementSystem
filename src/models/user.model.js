@@ -80,11 +80,17 @@ const userSchema = new Schema(
   },
 );
 
+// Pre Hook to hash coming password
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
+
+// Schema Method to equate passwords byt hashing incoming & existing
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 // Exporting a Mongoose model called 'User' that uses the defined schema
 export const User = mongoose.model("User", userSchema);

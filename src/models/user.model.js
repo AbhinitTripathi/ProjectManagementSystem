@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
 // Define the schema structure for the 'User' collection
 const userSchema = new Schema(
@@ -78,6 +79,12 @@ const userSchema = new Schema(
     timestamps: true,
   },
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
 
 // Exporting a Mongoose model called 'User' that uses the defined schema
 export const User = mongoose.model("User", userSchema);

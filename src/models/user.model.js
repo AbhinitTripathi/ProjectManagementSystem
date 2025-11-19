@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"
 
 // Define the schema structure for the 'User' collection
 const userSchema = new Schema(
@@ -81,6 +81,8 @@ const userSchema = new Schema(
   },
 );
 
+
+
 // Pre Hook to hash coming password
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -93,19 +95,23 @@ userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccessToken = function () {
+// Use jsonwebtoken to generate access token
+userSchema.methods.generateAccessToken = function() {
   return jwt.sign(
+    // PAYLOAD: the main data being carried or delivered.
     {
       _id: this._id,
       email: this.email,
-      username: this.username,
+      username: this.username
     },
+    // Secret key for generating ACESS_TOKEN
     process.env.ACCESS_TOKEN_SECRET,
+    // Expiry time for the ACESS_TOKEN
     {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    },
-  );
-};
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+    }
+  )
+}
 
 // Exporting a Mongoose model called 'User' that uses the defined schema
 export const User = mongoose.model("User", userSchema);

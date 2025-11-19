@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 // Define the schema structure for the 'User' collection
 const userSchema = new Schema(
@@ -125,6 +126,20 @@ userSchema.methods.generateRefreshToken = function () {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     },
   );
+};
+
+// Temporary tokens for email verification and password reset
+userSchema.methods.generateTemporaryToken = function () {
+  const unhashedToken = crypto.randomBytes(20).toString("hex");
+
+  const hashedToken = crypto
+    .createHash("sha256") // Create SHA-256 hash engine
+    .update(unhashedToken) // Feed the token string into it
+    .digest("hex"); // Close engine and get final hash in hex form
+
+  const tokenExpiry = Date.now() + 20 * 60 * 1000;
+
+  return { unhashedToken, hashedToken, tokenExpiry };
 };
 
 // Exporting a Mongoose model called 'User' that uses the defined schema

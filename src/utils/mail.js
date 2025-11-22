@@ -1,5 +1,46 @@
 import Mailgen from "mailgen";
+import nodemailer from "nodemailer";
 
+const sendEmail = async (options) => {
+  const mailGenerator = new Mailgen({
+    theme: "default",
+    product: {
+      name: "Task Manager",
+      link: "https://taskmanagerlink.com",
+    },
+  });
+
+  const emailTexual = mailGenerator.generatePlaintext(options.mailgenContent);
+  const emailHTML = mailGenerator.generate(options.mailgenContent);
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.MAILTRAP_SMTP_HOST,
+    port: process.env.MAILTRAP_SMTP_PORT,
+    auth: {
+      user: process.env.MAILTRAP_SMTP_USER,
+      pass: process.env.MAILTRAP_SMTP_PASS,
+    },
+  });
+
+  const mail = {
+    from: "mail.taskmanager@example.com",
+    to: options.email,
+    subject: options.subject,
+    text: emailTexual,
+    html: emailHTML,
+  };
+
+  try {
+    await transporter.sendEmail(mail);
+  } catch (error) {
+    console.error(
+      "Email service failed. Make sure Mail Trap credentials are in .env",
+    );
+    console.error("Error: ", error);
+  }
+};
+
+// Function to generate verification email content
 const emailVerificationMailgenContent = (username, verificationURL) => {
   return {
     body: {
@@ -21,6 +62,7 @@ const emailVerificationMailgenContent = (username, verificationURL) => {
   };
 };
 
+// Function to generate password reset content
 const forgotPasswordMailgenContent = (username, passwordResetURL) => {
   return {
     body: {
@@ -41,4 +83,8 @@ const forgotPasswordMailgenContent = (username, passwordResetURL) => {
   };
 };
 
-export { emailVerificationMailgenContent, forgotPasswordMailgenContent };
+export {
+  emailVerificationMailgenContent,
+  forgotPasswordMailgenContent,
+  sendEmail,
+};

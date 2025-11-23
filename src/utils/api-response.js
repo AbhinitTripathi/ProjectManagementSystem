@@ -1,3 +1,4 @@
+// Model a custom response that the server sends out
 class ApiResponse {
   constructor(statusCode, data, message = "Success") {
     this.statusCode = statusCode;

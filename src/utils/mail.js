@@ -1,7 +1,12 @@
 import Mailgen from "mailgen";
 import nodemailer from "nodemailer";
 
+/*
+ * Sends an email using Mailgen for templating and Nodemailer for delivery.
+ * Expects `options` containing email, subject, and Mailgen content.
+ */
 const sendEmail = async (options) => {
+  // Configure Mailgen template generator
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {
@@ -10,9 +15,11 @@ const sendEmail = async (options) => {
     },
   });
 
+  // Generate plain text and HTML versions of the email
   const emailTexual = mailGenerator.generatePlaintext(options.mailgenContent);
   const emailHTML = mailGenerator.generate(options.mailgenContent);
 
+  // Configure email transport (Mailtrap credentials from environment variables)
   const transporter = nodemailer.createTransport({
     host: process.env.MAILTRAP_SMTP_HOST,
     port: process.env.MAILTRAP_SMTP_PORT,
@@ -22,6 +29,7 @@ const sendEmail = async (options) => {
     },
   });
 
+  // Email details
   const mail = {
     from: "mail.taskmanager@example.com",
     to: options.email,
@@ -30,15 +38,16 @@ const sendEmail = async (options) => {
     html: emailHTML,
   };
 
+  // Attempt sending the email
   try {
-    await transporter.sendEmail(mail);
+    await transporter.sendMail(mail);
   } catch (error) {
-    console.error(
-      "Email service failed. Make sure Mail Trap credentials are in .env",
-    );
-    console.error("Error: ", error);
+    console.error("Email service failed. Check Mailtrap credentials in .env");
+    console.error("Error:", error);
   }
 };
+
+// Following functions return objects designed to go with "mailgen"
 
 // Function to generate verification email content
 const emailVerificationMailgenContent = (username, verificationURL) => {

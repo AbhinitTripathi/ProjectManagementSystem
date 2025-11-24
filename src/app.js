@@ -20,7 +20,10 @@ app.use(express.static("public"));
 
 // import routes
 import healthCheckRoute from "./controllers/healthcheck.controllers.js";
+import authRouter from "./routes/auth.routs.js";
+
 app.use("/api/v1/healthcheck", healthCheckRoute);
+app.use("/api/v1/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send(`Application Home`);

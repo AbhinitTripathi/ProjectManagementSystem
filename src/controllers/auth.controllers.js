@@ -27,6 +27,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
     throw new ApiError(
       500,
       "Something went wrong while generating Access/Refresh token",
+      []
     );
   }
 };
@@ -42,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
     $or: [{ username }, { email }],
   });
 
-  if (!existingUser) {
+  if (existingUser) {
     throw new ApiError(409, "User with email or username already exists", []);
   }
 
@@ -69,7 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
   await user.save({ validateBeforeSave: false });
 
   await sendEmail({
-    // if user exists ? email : undefined
+    // if user exists ? user.email : undefined
     email: user?.email,
     // Suject that will be sent in the mail body
     subject: "please Verify your email",
@@ -85,6 +86,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // Build response to be sent to the client
   // "-something" excludes that field from the returned Document
   const createdUser = await User.findById(user._id).select(
+    // Do NOT return the following mentioned fields
     `
     -password
     -refreshToken

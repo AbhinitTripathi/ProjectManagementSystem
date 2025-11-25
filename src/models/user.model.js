@@ -89,7 +89,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Schema Method to equate passwords byt hashing incoming & existing
+// Schema Method to equate passwords by hashing incoming & existing
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };

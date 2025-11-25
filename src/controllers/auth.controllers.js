@@ -27,7 +27,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
     throw new ApiError(
       500,
       "Something went wrong while generating Access/Refresh token",
-      []
+      [],
     );
   }
 };
